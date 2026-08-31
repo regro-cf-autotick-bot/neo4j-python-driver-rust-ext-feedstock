@@ -1,6 +1,6 @@
 {% set pypi_name = "neo4j-rust-ext" %}
 {% set name = "neo4j-python-driver-rust-ext" %}
-{% set version = "6.2.0.0" %}
+{% set version = "6.3.0.0" %}
 
 {% set driver_target_version = ".".join(version.split(".")[:3]) %}
 {% set docs_version = ".".join(version.split(".")[:2]) %}
@@ -11,13 +11,14 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ pypi_name[0] }}/{{ pypi_name }}/{{ pypi_name | replace("-", "_") }}-{{ version }}.tar.gz
-  sha256: f30e27741729924a1466c9d91890174524851d0eb07616cd7ebe297af6ed786a
+  sha256: 0b1360febef02437e62fd1065ad91e5799b7986eadaea3b799cbd240270cfd32
 
 build:
   script:
     - cargo-bundle-licenses --format yaml --output THIRDPARTY.yml
     - {{ PYTHON }} -m pip install . -vv --no-deps
   number: 0
+  skip: true  # [python_impl == 'pypy' or py < 310 or py > 314]
 
 requirements:
   build:
